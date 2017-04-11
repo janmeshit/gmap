@@ -5,41 +5,20 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\Product;
+use AppBundle\Entity\Location;
 
 class DefaultController extends Controller
 {
     /**
-     * Matches /blog exactly
-     *
-     * @Route("/blog", name="blog_list")
+     * @Route("/list")
      */
-public function createAction()
-{
-    $product = new Product();
-    $product->setName('Mouse');
-    $product->setPrice(50);
-    $product->setDescription('Enjoy it');
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $locations = $em->getRepository('AppBundle:Location')->findAll();
+        dump($locations);
+        return new Response('<body>see debug toolbar "target" for dump output</body>');
+    }
 
-
-    $em = $this->getDoctrine()->getManager();
-
-    // tells Doctrine you want to (eventually) save the Product (no queries yet)
-    $em->persist($product);
-
-    // actually executes the queries (i.e. the INSERT query)
-    $em->flush();
-
-    return new Response('Saved new product with id '.$product->getId());
-}
-/**
-     * Matches /list exactly
-     *
-     * @Route("/list", name="list_action")
-     */
-public function listAction(){
-    
-
-}
 
 }
