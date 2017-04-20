@@ -25,12 +25,12 @@ class Location
     private $name;
 
      /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="decimal", scale=6)
      */
    
     private $latitude;
      /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="decimal", scale=6)
      */
    
     private $longitude;

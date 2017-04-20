@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta>
+<meta charset="UTF-8">
+<title>Hello World in Vue.js</title>
+</meta>
+
+<body>
+
+<div id="demo">
+<h1>Load the Location Details</h1>
+    <button v-on:click="fetchData">Greet</button>
+
+    <ul v-for="record in commits">
+        <li v-on:click="fetchLocationData({{record.id}})">
+             {{record.name}}
+        </li>
+
+        <div id="example-1">
+            <button v-on:click="counter += 1">Add 1</button>
+            <p>The button above has been clicked {{ counter }} times.</p>
+        </div>
+
+
+    </ul>
+</div>
+
+
+<script src="vue.js"> </script>
+
+<script>
+
+
+    var apiURL = 'http://127.0.0.1:8000/locations'
+
+
+    /**
+     * Actual demo
+     */
+
+    var demo = new Vue({
+
+        el: '#demo',
+
+        data: {
+            branches: ['master', 'dev'],
+            currentBranch: 'master',
+            commits: null,
+            records:null,
+            counter:0
+        },
+
+
+
+        methods: {
+            fetchData: function () {
+                var xhr = new XMLHttpRequest()
+                var self = this
+                xhr.open('GET', apiURL)
+                xhr.onload = function () {
+                    self.commits = JSON.parse(xhr.responseText)['hydra:member']
+                    console.log(self.commits)
+                }
+                xhr.send()
+            },
+
+            fetchLocationData: function (id) {
+                var xhr = new XMLHttpRequest()
+                var self = this
+                xhr.open('GET', apiURL + '/'+ id)
+                xhr.onload = function () {
+                    self.records = JSON.parse(xhr.responseText)
+                    console.log(self.records['description'])
+                }
+                xhr.send()
+            }
+
+        }
+    })
+
+
+</script>
+
+</body>
+</html>
